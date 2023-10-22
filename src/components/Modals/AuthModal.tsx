@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import {IoClose} from "react-icons/io5";
 import Login from './Login';
-import SignUp from './SignUp';
+import SignUp from './Signup';
 import ResetPassword from './ResetPassword';
 import {useRecoilValue, useSetRecoilState} from "recoil"
 import { authModalState } from '@/atoms/authModalAtom';
