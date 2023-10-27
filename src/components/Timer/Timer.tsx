@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import { AiOutlinePause } from "react-icons/ai";
 import { BsFillPlayFill } from "react-icons/bs";
 import { FiRefreshCcw } from "react-icons/fi";
+import {pauseModalAtom} from "@/atoms/pauseModalAtom"
+import { useRecoilState } from "recoil";
+
 
 type TimerProps = {};
 
 const Timer: React.FC<TimerProps> = () => {
   const [showTimer, setShowTimer] = useState<boolean>(false);
   const [time, setTime] = useState<number>(0);
-  const [isPaused, setIsPaused] = useState<boolean>(false);
+  const [isPaused, setIsPaused] = useRecoilState(pauseModalAtom); 
 
   const formatTime = (time: number): string => {
     const hours = Math.floor(time / 3600);
@@ -22,13 +25,19 @@ const Timer: React.FC<TimerProps> = () => {
 
   // Handle the pause and resume functionality
   const handlePauseResumeClick = () => {
-    setIsPaused((prevIsPaused) => !prevIsPaused);
-  };
+    setIsPaused((prevIsPaused) => {
+        return {
+            ...prevIsPaused,
+            isPause: !prevIsPaused.isPause
+        };
+    });
+};
+
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
 
-    if (showTimer && !isPaused) {
+    if (showTimer && !isPaused.isPause) {
       intervalId = setInterval(() => {
         setTime((time) => time + 1);
       }, 1000);
@@ -49,7 +58,7 @@ const Timer: React.FC<TimerProps> = () => {
             }}
           />
           <button onClick={handlePauseResumeClick}>
-            {isPaused ? <BsFillPlayFill/> : <AiOutlinePause/>}
+            {isPaused.isPause ? <BsFillPlayFill/> : <AiOutlinePause/>}
           </button>
         </div>
       ) : (
