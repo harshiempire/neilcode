@@ -54,6 +54,12 @@ const Timer: React.FC<TimerProps> = () => {
           <FiRefreshCcw
             onClick={() => {
               setShowTimer(false);
+              setIsPaused((prevIsPaused) => {
+                return {
+                    ...prevIsPaused,
+                    isPause: false
+                };
+            })
               setTime(0);
             }}
           />
